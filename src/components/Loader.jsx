@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { lockScroll, reducedMotion } from "../lib/smooth.js";
+import { landmarksWarm } from "../lib/warmup.js";
 
 // The torii's strokes, in the order they're drawn (pillars, beams, strut).
 const STROKES = [
@@ -12,8 +13,8 @@ const STROKES = [
 ];
 
 // Opening screen (inspired by ivress): a torii draws itself while a percentage
-// counts up. It finishes once fonts and the page have loaded, then the
-// curtain lifts.
+// counts up. It finishes once fonts, the page and the 3D scenes are ready
+// (shaders compiled, models on the GPU), then the curtain lifts.
 export default function Loader({ onDone }) {
   const [pct, setPct] = useState(0);
   const [leaving, setLeaving] = useState(false);
@@ -26,8 +27,11 @@ export default function Loader({ onDone }) {
     }
     lockScroll(true);
     const pageLoaded = new Promise((r) => (document.readyState === "complete" ? r() : window.addEventListener("load", r, { once: true })));
-    const timeout = new Promise((r) => setTimeout(r, 3500)); // never wait forever
-    Promise.race([Promise.all([document.fonts?.ready, pageLoaded]), timeout]).then(() => (ready.current = true));
+    const timeout = new Promise((r) => setTimeout(r, 6000)); // never wait forever
+    // Ready when fonts, page and the pre-warmed 3D scene are all done.
+    Promise.race([Promise.all([document.fonts?.ready, pageLoaded, landmarksWarm]), timeout]).then(
+      () => (ready.current = true)
+    );
 
     const start = performance.now();
     let last = start;

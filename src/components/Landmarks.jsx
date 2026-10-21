@@ -1,5 +1,6 @@
 import { useCallback, useRef, useState } from "react";
 import { Canvas } from "@react-three/fiber";
+import { PerformanceMonitor } from "@react-three/drei";
 import LandmarksScene from "./LandmarksScene.jsx";
 import useInView from "../hooks/useInView.js";
 import useScrollProgress from "../hooks/useScrollProgress.js";
@@ -89,7 +90,11 @@ const CHAPTERS = [
 
 export default function Landmarks() {
   const section = useRef(null);
-  const [viewRef, inView] = useInView("200px");
+  // Start rendering a full screen before the section arrives, so a fast
+  // scroll never lands on a paused (blank) canvas.
+  const [viewRef, inView] = useInView("100% 0px");
+  // Resolution adapts to the device: drops to 1x if the frame rate struggles.
+  const [dpr, setDpr] = useState(1.5);
   const [chapter, setChapter] = useState(0);
   // The progress bar and hint update every frame, so they're changed directly
   // on the DOM instead of through React state (no re-render per frame).
@@ -113,9 +118,12 @@ export default function Landmarks() {
         <Canvas
           className="landmarks-canvas"
           camera={{ position: [0.6, 0.5, 9.5], fov: 45, near: 0.1, far: 200 }}
-          dpr={[1, 1.75]}
+          dpr={dpr}
           frameloop={inView ? "always" : "never"}
+          gl={{ powerPreference: "high-performance" }}
+          onCreated={(state) => import.meta.env.DEV && (window.__lm = state)}
         >
+          <PerformanceMonitor onDecline={() => setDpr(1)} onIncline={() => setDpr(1.5)} flipflops={3} />
           <LandmarksScene progress={progress} animate={!reducedMotion} />
         </Canvas>
 

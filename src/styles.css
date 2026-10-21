@@ -607,7 +607,15 @@ code {
 
 /* Landmarks: tall section with a pinned 3D view */
 .landmarks { position: relative; height: 1100vh; margin-top: clamp(40px, 8vw, 100px); }
-.landmarks-sticky { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
+/* Sky-coloured backdrop: if a frame is ever late, you see night sky, not black */
+.landmarks-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  background: linear-gradient(180deg, #050816 0%, #140f2a 55%, #2a1630 100%);
+}
 .landmarks-canvas { position: absolute !important; inset: 0; }
 .landmarks-ui {
   position: absolute;

@@ -1,4 +1,4 @@
-import { useLayoutEffect, useMemo, useRef } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import * as THREE from "three";
@@ -8,6 +8,7 @@ import GoldenPavilion from "./models/GoldenPavilion.jsx";
 import HimejiCastle from "./models/HimejiCastle.jsx";
 import MountFuji from "./models/MountFuji.jsx";
 import Petals from "./models/Petals.jsx";
+import { markLandmarksWarm } from "../lib/warmup.js";
 
 // Where each landmark stands in the 3D world (x, y, z).
 const V = (x, y, z) => new THREE.Vector3(x, y, z);
@@ -326,7 +327,44 @@ function Mist({ position, rise }) {
   );
 }
 
+// Pre-warm the GPU while the loader is showing: compile every shader, then
+// draw one quick frame from each stop of the journey so every model and
+// texture is uploaded. Afterwards no landmark is "new" to the GPU, so fast
+// scrolling never hits a compile stall (measured before: ~990 ms freeze).
+function useWarmup() {
+  const { gl, scene, camera, advance } = useThree();
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      // Wait a frame so every model has mounted and placed its instances.
+      await new Promise((r) => requestAnimationFrame(r));
+      if (cancelled) return;
+      const cam = camera.clone();
+      // compileAsync lets the browser compile shaders in parallel without
+      // blocking the page (falls back to compile on older three.js).
+      if (gl.compileAsync) await gl.compileAsync(scene, cam);
+      else gl.compile(scene, cam);
+      if (cancelled) return;
+      const at = new THREE.Vector3();
+      for (const p of [0, 0.12, 0.21, 0.3, 0.38, 0.47, 0.55, 0.65, 0.75, 0.85, 1]) {
+        const t = curveParam(p);
+        CAMERA_PATH.getPoint(t, cam.position);
+        cam.lookAt(TARGET_PATH.getPoint(t, at));
+        cam.updateMatrixWorld();
+        gl.render(scene, cam);
+      }
+      // One real frame through the bloom pass so its shaders compile too.
+      advance(performance.now());
+      markLandmarksWarm();
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [gl, scene, camera, advance]);
+}
+
 export default function LandmarksScene({ progress, animate = true }) {
+  useWarmup();
   const { camera, size } = useThree();
   const smooth = useRef(progress.current); // eased copy of scroll progress
   const atmo = useRef({ top: new THREE.Color(), bottom: new THREE.Color(), fog: new THREE.Color(), near: 10, far: 34, stars: 1 });

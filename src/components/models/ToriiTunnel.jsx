@@ -173,11 +173,12 @@ export default function ToriiTunnel(props) {
         </group>
       ))}
 
-      {/* Warm lantern light glowing through the tunnel */}
-      {[0.1, 0.45, 0.8].map((u) => {
-        const p = TUNNEL_PATH.getPointAt(u);
-        return <pointLight key={u} position={[p.x, p.y + 0.85, p.z]} intensity={3.2} distance={4} decay={1.6} color="#ffb070" />;
-      })}
+      {/* One warm lantern light glowing through the tunnel. (Every light costs
+          GPU time on every pixel of the whole scene, so we keep just one.) */}
+      {(() => {
+        const p = TUNNEL_PATH.getPointAt(0.45);
+        return <pointLight position={[p.x, p.y + 0.9, p.z]} intensity={6} distance={8} decay={1.3} color="#ffb070" />;
+      })()}
     </group>
   );
 }

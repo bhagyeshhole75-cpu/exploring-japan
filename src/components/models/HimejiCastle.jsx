@@ -206,8 +206,7 @@ export default function HimejiCastle(props) {
       ))}
 
       {/* Floodlights, as the real castle is lit up in the evening */}
-      <pointLight position={[0.6, 1.6, 3.6]} intensity={9} distance={9} decay={1.4} color="#fff1dc" />
-      <pointLight position={[-2.5, 1.2, 2.2]} intensity={3} distance={6} decay={1.5} color="#ffd2b0" />
+      <pointLight position={[-0.4, 1.6, 3.6]} intensity={11} distance={10} decay={1.4} color="#fff1dc" />
     </group>
   );
 }

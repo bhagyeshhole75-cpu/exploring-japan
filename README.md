@@ -44,6 +44,21 @@ Design references: Shopify Editions (smooth scroll, split-letter headings, chapt
 ivress (loader, chapter storytelling, vertical Japanese text), ScreenTune and vanta.supply
 (layout and glass look).
 
+## Performance
+Scrolling fast used to show a black or frozen screen. Measuring it showed why: the
+**first** render of a landmark the GPU hadn't seen yet took **~990 ms**, because it had to
+compile 12 shader programs and upload 360 models in a single frame. Fixes:
+
+- **Pre-warming behind the loader:** `compileAsync` compiles every shader, then one quick
+  frame is drawn from each stop of the journey so all 387 models are uploaded. The loader
+  waits for this. First renders now take **1–5 ms**.
+- **Waking up early:** each 3D canvas starts rendering a full screen before it scrolls
+  into view, and pauses when it's far away to save battery.
+- **No black flashes:** the 3D section has a sky-coloured backdrop behind the canvas.
+- **Cheaper frames:** 6 point lights cut to 3 (every light costs GPU time on every
+  pixel), and drei's `PerformanceMonitor` drops the resolution from 1.5× to 1× if the
+  frame rate struggles.
+
 ## Tech stack
 | Layer    | Tool                                         | What it does here |
 |----------|----------------------------------------------|-------------------|

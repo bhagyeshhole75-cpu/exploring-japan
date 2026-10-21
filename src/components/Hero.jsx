@@ -1,5 +1,6 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Canvas } from "@react-three/fiber";
+import { PerformanceMonitor } from "@react-three/drei";
 import ToriiScene from "./ToriiScene.jsx";
 import SplitText from "./SplitText.jsx";
 import RingText from "./RingText.jsx";
@@ -7,7 +8,8 @@ import useInView from "../hooks/useInView.js";
 import { reducedMotion } from "../lib/smooth.js";
 
 export default function Hero({ shopCount, cityCount, loaded }) {
-  const [ref, inView] = useInView();
+  const [ref, inView] = useInView("50% 0px");
+  const [dpr, setDpr] = useState(1.5);
   const hero = useRef(null);
 
   // Scroll-linked parallax: as you scroll, the headline drifts up and fades
@@ -65,9 +67,11 @@ export default function Hero({ shopCount, cityCount, loaded }) {
         <div className="window-stage">
           <Canvas
             camera={{ position: [0, 0.2, 6.5], fov: 38 }}
-            dpr={[1, 2]}
+            dpr={dpr}
             frameloop={inView ? "always" : "never"}
+            gl={{ powerPreference: "high-performance" }}
           >
+            <PerformanceMonitor onDecline={() => setDpr(1)} onIncline={() => setDpr(1.5)} flipflops={3} />
             <ToriiScene animate={!reducedMotion} />
           </Canvas>
           <RingText />
