@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import ToriiIcon from "./ToriiIcon.jsx";
 
 const LINKS = [
+  { href: "#landmarks", label: "Landmarks" },
   { href: "#shops", label: "Shops" },
   { href: "#tips", label: "Tips" },
   { href: "#faq", label: "FAQ" },

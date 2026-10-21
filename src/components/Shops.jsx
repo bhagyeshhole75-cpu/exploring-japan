@@ -1,4 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
+import SplitText from "./SplitText.jsx";
+import Reveal from "./Reveal.jsx";
+import { lockScroll } from "../lib/smooth.js";
 
 function Chip({ active, onClick, children }) {
   return (
@@ -8,9 +11,9 @@ function Chip({ active, onClick, children }) {
   );
 }
 
-function ShopCard({ shop, categoryName, onOpen }) {
+function ShopCard({ shop, categoryName, onOpen, index }) {
   return (
-    <button className="shop-card" onClick={() => onOpen(shop)}>
+    <button className="shop-card stagger" style={{ "--i": index }} onClick={() => onOpen(shop)}>
       <div className="shop-photo">
         <img src={shop.photo.small} alt={`${shop.name}, ${shop.area}`} loading="lazy" width="640" height="400" />
         <span className="shop-cat">{categoryName}</span>
@@ -33,17 +36,17 @@ function ShopModal({ shop, categoryName, onClose }) {
   useEffect(() => {
     const onKey = (e) => e.key === "Escape" && onClose();
     document.addEventListener("keydown", onKey);
-    document.body.style.overflow = "hidden";
+    lockScroll(true);
     return () => {
       document.removeEventListener("keydown", onKey);
-      document.body.style.overflow = "";
+      lockScroll(false);
     };
   }, [onClose]);
 
   const credit = shop.photo.credit;
 
   return (
-    <div className="modal-backdrop" onClick={onClose}>
+    <div className="modal-backdrop" onClick={onClose} data-lenis-prevent>
       <article
         className="modal"
         role="dialog"
@@ -113,18 +116,16 @@ export default function Shops({ shops, cities, categories, source }) {
   );
 
   return (
-    <section className="section" id="shops">
+    <section className="section" id="shops" data-chapter="Shops">
       <header className="section-head center">
-        <p className="label">§02 / The shops</p>
-        <h2>
-          Fourteen shops.
-          <br />
-          Every one worth the trip.
-        </h2>
-        <p className="section-sub">
+        <Reveal as="p" className="label">
+          §03 / The shops
+        </Reveal>
+        <SplitText text={"Fourteen shops.\nEvery one worth the trip."} />
+        <Reveal as="p" className="section-sub">
           Markets, makers and pop-culture temples. Filter by city or by what you love, and tap a card for
           the full story.
-        </p>
+        </Reveal>
       </header>
 
       <div className="filters">
@@ -151,16 +152,17 @@ export default function Shops({ shops, cities, categories, source }) {
         </p>
       </div>
 
-      <div className="shop-grid">
-        {visible.map((shop) => (
-          <ShopCard key={shop.id} shop={shop} categoryName={catName[shop.category]} onOpen={setOpen} />
+      {/* key: re-run the staggered entrance whenever the filters change */}
+      <Reveal className="shop-grid" key={`${city}-${category}`}>
+        {visible.map((shop, i) => (
+          <ShopCard key={shop.id} index={i} shop={shop} categoryName={catName[shop.category]} onOpen={setOpen} />
         ))}
         {visible.length === 0 && (
           <p className="empty">
             No shops match that mix yet. Try another city or type.
           </p>
         )}
-      </div>
+      </Reveal>
 
       {open && <ShopModal shop={open} categoryName={catName[open.category]} onClose={close} />}
     </section>

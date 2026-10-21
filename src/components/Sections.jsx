@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import ToriiIcon from "./ToriiIcon.jsx";
+import SplitText from "./SplitText.jsx";
+import Reveal from "./Reveal.jsx";
 
 const TIPS = [
   {
@@ -36,18 +37,16 @@ const TIPS = [
 
 export function Tips() {
   return (
-    <section className="section" id="tips">
+    <section className="section" id="tips" data-chapter="Tips">
       <header className="section-head center">
-        <p className="label">§03 / Shop like a local</p>
-        <h2>
-          Every little
-          <br />
-          finishing touch.
-        </h2>
+        <Reveal as="p" className="label">
+          §04 / Shop like a local
+        </Reveal>
+        <SplitText text={"Every little\nfinishing touch."} />
       </header>
-      <div className="tips">
-        {TIPS.map((t) => (
-          <article className="tip-card" key={t.title}>
+      <Reveal className="tips">
+        {TIPS.map((t, i) => (
+          <article className="tip-card stagger" style={{ "--i": i }} key={t.title}>
             <span className="tip-jp" lang="ja">
               {t.jp}
             </span>
@@ -55,7 +54,7 @@ export function Tips() {
             <p>{t.text}</p>
           </article>
         ))}
-      </div>
+      </Reveal>
     </section>
   );
 }
@@ -83,25 +82,23 @@ const FAQ = [
   },
   {
     q: "How was this website built?",
-    a: "The interface is React, the 3D torii gate is three.js running on your GPU, and the shop data comes from a Node.js API running as a serverless function on Vercel in Mumbai.",
+    a: "The interface is React, with Lenis for smooth scrolling. The 3D torii, Tokyo Tower and castle are three.js models built from code and running on your GPU. The shop data comes from a Node.js API running as a serverless function on Vercel in Mumbai.",
   },
 ];
 
 export function Faq() {
   const [open, setOpen] = useState(0);
   return (
-    <section className="section narrow" id="faq">
+    <section className="section narrow" id="faq" data-chapter="FAQ">
       <header className="section-head center">
-        <p className="label">§04 / Honest answers</p>
-        <h2>
-          Everything you
-          <br />
-          need to know.
-        </h2>
+        <Reveal as="p" className="label">
+          §05 / Honest answers
+        </Reveal>
+        <SplitText text={"Everything you\nneed to know."} />
       </header>
-      <div className="faq">
+      <Reveal className="faq">
         {FAQ.map((item, i) => (
-          <div className={`faq-item ${open === i ? "open" : ""}`} key={item.q}>
+          <div className={`faq-item stagger ${open === i ? "open" : ""}`} style={{ "--i": i }} key={item.q}>
             <button onClick={() => setOpen(open === i ? -1 : i)} aria-expanded={open === i}>
               <span>{item.q}</span>
               <i aria-hidden>+</i>
@@ -111,7 +108,7 @@ export function Faq() {
             </div>
           </div>
         ))}
-      </div>
+      </Reveal>
     </section>
   );
 }
@@ -148,22 +145,20 @@ export function CloudStatus({ shopCount }) {
   ];
 
   return (
-    <section className="section" id="cloud">
+    <section className="section" id="cloud" data-chapter="Cloud">
       <div className="cloud-grid">
         <header className="section-head">
-          <p className="label">§05 / Live from the cloud</p>
-          <h2>
-            A real server
-            <br />
-            answered you.
-          </h2>
-          <p className="section-sub">
+          <Reveal as="p" className="label">
+            §06 / Live from the cloud
+          </Reveal>
+          <SplitText text={"A real server\nanswered you."} />
+          <Reveal as="p" className="section-sub">
             The shop list on this page comes from <code>/api/shops</code>, a Node.js function running in a
             Vercel data centre in Mumbai (AWS ap-south-1). This panel pings it live.
-          </p>
+          </Reveal>
         </header>
 
-        <div className="status">
+        <Reveal className="status">
           <div className="status-head">
             <span className={`dot dot-${status}`} />
             <strong>
@@ -182,7 +177,7 @@ export function CloudStatus({ shopCount }) {
             ))}
           </dl>
           {status === "error" && <p className="status-error">Could not reach the API ({state.message}).</p>}
-        </div>
+        </Reveal>
       </div>
     </section>
   );
@@ -191,9 +186,7 @@ export function CloudStatus({ shopCount }) {
 export function Footer({ shops }) {
   return (
     <footer className="footer">
-      <p className="footer-big">
-        <span lang="ja">探検</span> Exploring Japan
-      </p>
+      <SplitText as="p" className="footer-big" text="探検 Exploring Japan" />
       <div className="footer-grid">
         <div>
           <p>
@@ -230,26 +223,5 @@ export function Footer({ shops }) {
         </div>
       </div>
     </footer>
-  );
-}
-
-export function FloatingBar() {
-  const [show, setShow] = useState(false);
-  useEffect(() => {
-    const onScroll = () => setShow(window.scrollY > window.innerHeight * 0.9);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  return (
-    <div className={`floating-bar ${show ? "show" : ""}`} aria-hidden={!show}>
-      <span className="bar-brand">
-        <ToriiIcon size={18} /> Exploring Japan
-      </span>
-      <a className="btn btn-light btn-sm" href="#shops" tabIndex={show ? 0 : -1}>
-        Shops →
-      </a>
-    </div>
   );
 }

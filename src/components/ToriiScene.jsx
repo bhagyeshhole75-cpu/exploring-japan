@@ -3,6 +3,7 @@ import { useFrame, useThree } from "@react-three/fiber";
 import { Environment, Float, Lightformer, MeshTransmissionMaterial } from "@react-three/drei";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import * as THREE from "three";
+import Petals from "./models/Petals.jsx";
 
 const VERMILION = "#e5482c";
 const LACQUER_BLACK = "#1a1412";
@@ -127,65 +128,6 @@ function Glow({ color, position, scale, opacity = 0.55 }) {
         toneMapped={false}
       />
     </mesh>
-  );
-}
-
-// Sakura petals: one InstancedMesh draws all of them in a single GPU call.
-function Petals({ count = 140, animate }) {
-  const ref = useRef();
-  const dummy = useMemo(() => new THREE.Object3D(), []);
-
-  const geometry = useMemo(() => {
-    // A petal: rounded shape with a small notch at the tip.
-    const s = new THREE.Shape();
-    s.moveTo(0, -0.5);
-    s.bezierCurveTo(0.45, -0.25, 0.42, 0.35, 0.12, 0.5);
-    s.lineTo(0, 0.38);
-    s.lineTo(-0.12, 0.5);
-    s.bezierCurveTo(-0.42, 0.35, -0.45, -0.25, 0, -0.5);
-    const g = new THREE.ShapeGeometry(s, 12);
-    g.scale(0.09, 0.09, 0.09);
-    return g;
-  }, []);
-
-  const petals = useMemo(
-    () =>
-      Array.from({ length: count }, () => ({
-        x: (Math.random() - 0.5) * 9,
-        y: Math.random() * 6 - 3,
-        z: (Math.random() - 0.5) * 4 + 0.5,
-        speed: 0.25 + Math.random() * 0.35,
-        sway: 0.4 + Math.random() * 0.8,
-        phase: Math.random() * Math.PI * 2,
-        spin: 0.5 + Math.random() * 1.5,
-        scale: 0.6 + Math.random() * 0.8,
-      })),
-    [count]
-  );
-
-  useFrame((state, delta) => {
-    const t = state.clock.elapsedTime;
-    petals.forEach((p, i) => {
-      if (animate) {
-        p.y -= p.speed * delta;
-        if (p.y < -3.2) {
-          p.y = 3.2;
-          p.x = (Math.random() - 0.5) * 9;
-        }
-      }
-      dummy.position.set(p.x + Math.sin(t * p.sway + p.phase) * 0.35, p.y, p.z);
-      dummy.rotation.set(t * p.spin * 0.6 + p.phase, t * p.spin + p.phase, Math.sin(t + p.phase) * 0.6);
-      dummy.scale.setScalar(p.scale);
-      dummy.updateMatrix();
-      ref.current.setMatrixAt(i, dummy.matrix);
-    });
-    ref.current.instanceMatrix.needsUpdate = true;
-  });
-
-  return (
-    <instancedMesh ref={ref} args={[geometry, null, count]}>
-      <meshStandardMaterial color="#ffc4d2" emissive="#ff8fae" emissiveIntensity={0.35} side={THREE.DoubleSide} roughness={0.6} />
-    </instancedMesh>
   );
 }
 
