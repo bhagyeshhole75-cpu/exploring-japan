@@ -16,11 +16,17 @@ Builder Group pre-interview task.
 - **3D hero:** a vermilion torii built from three.js shapes, a refractive glass "sun",
   140 sakura petals drawn in a single GPU call (instancing), bloom, a camera that follows
   your pointer, and a ring of text spinning around the gate in CSS 3D.
-- **Scroll-driven 3D landmarks:** a pinned scene where scrolling flies the camera around
-  a **Tokyo Tower** model (scaled from the real 332.9 m height, with the Main Deck at 150 m
-  and Top Deck at 249.6 m) over a night city, then across to a **Himeji-style castle** that
-  rises out of the mist at dusk. Captions, vertical Japanese titles and a chapter counter
-  change as you go.
+- **Scroll-driven 3D journey through five landmarks**, all modelled in code with three.js.
+  Scrolling flies the camera from place to place while the sky shifts from night to dawn,
+  and captions, vertical Japanese titles and an 01 / 11 counter change as you go:
+  1. **Tokyo Tower** at night over a lit-up city (scaled from the real 332.9 m height,
+     with the Main Deck at 150 m and the Top Deck at 249.6 m).
+  2. **Fushimi Inari Taisha**: the camera flies *through* a tunnel of 46 vermilion torii
+     in a cedar forest (instanced: the gates are drawn in a handful of GPU calls).
+  3. **Kinkaku-ji**, the Golden Pavilion, mirrored in its pond.
+  4. **Himeji Castle** rising out of the mist at dusk, with falling sakura.
+  5. **Mount Fuji** at dawn: a lathe-built cone with gullies, a jagged snowline and
+     clouds, reflected in the lake at its foot.
 - **Smooth motion:** Lenis smooth scrolling, headings that reveal letter by letter, cards
   that slide in one after another, scroll-linked parallax, and a floating chapter pill
   (01 / 06) for jumping between sections.
@@ -70,7 +76,8 @@ exploring-japan/
 │   ├── components/
 │   │   ├── ToriiScene.jsx      # hero 3D scene
 │   │   ├── LandmarksScene.jsx  # scroll-driven 3D: camera path, sky, city
-│   │   ├── models/             # TokyoTower, HimejiCastle, Petals (built from code)
+│   │   ├── models/             # TokyoTower, ToriiTunnel, GoldenPavilion, HimejiCastle,
+│   │   │                       # MountFuji, Petals, shapes.js (all built from code)
 │   │   ├── Loader.jsx, ChapterPill.jsx, SplitText.jsx, Reveal.jsx, RingText.jsx
 │   │   ├── Hero.jsx, Landmarks.jsx, Nav.jsx, Shops.jsx, Sections.jsx
 │   ├── hooks/         # useShops, useInView, useReveal, useScrollProgress
