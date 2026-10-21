@@ -5,7 +5,8 @@ Kyoto knife maker founded in 1560. The hero is a live **three.js** torii gate wi
 falling sakura petals, the interface is **React**, and the shop data comes from a
 **Node.js** API deployed on **Vercel**.
 
-**Live:** https://exploring-japan-bhagyesh.vercel.app
+**Live:** https://exploring-japan-bhagyesh.vercel.app  
+**Code:** https://github.com/bhagyeshhole75-cpu/exploring-japan
 
 Built by Bhagyesh Hole (first-year Computer Science, VIT Pune) for the AWS Student
 Builder Group pre-interview task.
