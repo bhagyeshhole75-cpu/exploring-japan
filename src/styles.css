@@ -750,3 +750,104 @@ code {
   .hero-copy, .hero.is-ready .window { transform: none !important; opacity: 1 !important; }
   .ring { display: none; }
 }
+
+/* ---------- Two-step shop filter ---------- */
+.filter { display: grid; justify-items: center; width: 100%; }
+.filter-step {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+.filter-step > span {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-family: var(--jp);
+  font-size: 0.75rem;
+  letter-spacing: 0;
+  color: var(--ink);
+  background: var(--sakura);
+}
+
+/* Step 1: city options with a highlight that glides to the chosen one */
+.city-row {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  padding: 8px;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--line);
+}
+.city-highlight {
+  position: absolute;
+  border-radius: 20px;
+  background: linear-gradient(135deg, var(--vermilion), #ff7a4a);
+  box-shadow: 0 10px 30px -10px rgba(229, 72, 44, 0.8);
+  transition: left 0.55s var(--ease-out), top 0.55s var(--ease-out), width 0.55s var(--ease-out), height 0.55s var(--ease-out);
+  animation: highlight-in 0.45s var(--ease-out);
+}
+@keyframes highlight-in { from { opacity: 0; transform: scale(0.85); } }
+.city-option {
+  position: relative; /* sits above the highlight */
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: baseline;
+  column-gap: 8px;
+  padding: 12px 18px;
+  border-radius: 20px;
+  text-align: left;
+  transition: color 0.3s, opacity 0.3s, transform 0.3s var(--ease-out);
+}
+.city-option:hover { transform: translateY(-2px); }
+.city-jp { grid-column: 1 / -1; font-size: 0.8rem; color: var(--gold); transition: color 0.3s; }
+.city-name { font-size: 1.05rem; font-weight: 600; }
+.city-option em { font-style: normal; font-size: 0.78rem; color: var(--muted); transition: color 0.3s; }
+.city-row.has-choice .city-option:not(.active) { opacity: 0.6; }
+.city-row.has-choice .city-option:not(.active):hover { opacity: 1; }
+.city-option.active .city-jp,
+.city-option.active em { color: rgba(255, 255, 255, 0.85); }
+
+/* Step 2: slides open, then its chips cascade in one by one */
+.sub-filter {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: grid-template-rows 0.6s var(--ease-out), opacity 0.45s ease, transform 0.6s var(--ease-out);
+  width: 100%;
+}
+.sub-filter.open { grid-template-rows: 1fr; opacity: 1; transform: none; }
+.sub-inner { overflow: hidden; display: grid; justify-items: center; min-height: 0; }
+.sub-inner > .filter-step { margin-top: 24px; }
+.filter-reset {
+  margin-left: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.filter-reset:hover { color: var(--text); background: rgba(255, 255, 255, 0.06); }
+.sub-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; padding-bottom: 4px; }
+.sub-row .chip em { font-style: normal; font-size: 0.75em; opacity: 0.6; margin-left: 4px; }
+.sub-filter.open .sub-row .chip { animation: chip-in 0.55s var(--ease-out) both; animation-delay: calc(120ms + var(--i) * 70ms); }
+@keyframes chip-in { from { opacity: 0; transform: translateY(14px) scale(0.94); } }
+.filters .data-source { margin-top: 18px; }
+
+@media (max-width: 600px) {
+  .city-row { gap: 6px; padding: 6px; }
+  .city-option { padding: 10px 14px; }
+  .city-name { font-size: 0.98rem; }
+}

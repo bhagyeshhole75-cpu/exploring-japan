@@ -30,8 +30,9 @@ Builder Group pre-interview task.
 - **Smooth motion:** Lenis smooth scrolling, headings that reveal letter by letter, cards
   that slide in one after another, scroll-linked parallax, and a floating chapter pill
   (01 / 06) for jumping between sections.
-- **14 shops in 4 regions** (Tokyo, Kyoto, Osaka, Hokkaido). Filter by city or type, and
-  open any shop for its story, what makes it special, and a local tip.
+- **14 shops in 4 regions** (Tokyo, Kyoto, Osaka, Hokkaido). Choose a city, then a type, and
+  open any shop for its story, what makes it special, and a local tip. The filter works in
+  two steps: pick a city first, then the categories available there animate in.
 - **Real photos** from Wikimedia Commons under free licences, with every photographer credited.
 - **Shopping tips and a FAQ** for first-time visitors.
 - **Live cloud panel:** pings the API and shows the Node.js version, region, round-trip time

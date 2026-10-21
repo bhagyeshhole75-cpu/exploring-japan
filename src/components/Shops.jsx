@@ -1,15 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import SplitText from "./SplitText.jsx";
 import Reveal from "./Reveal.jsx";
+import ShopFilter from "./ShopFilter.jsx";
 import { lockScroll } from "../lib/smooth.js";
-
-function Chip({ active, onClick, children }) {
-  return (
-    <button className={`chip ${active ? "active" : ""}`} onClick={onClick} aria-pressed={active}>
-      {children}
-    </button>
-  );
-}
 
 function ShopCard({ shop, categoryName, onOpen, index }) {
   return (
@@ -105,15 +98,24 @@ function ShopModal({ shop, categoryName, onClose }) {
 }
 
 export default function Shops({ shops, cities, categories, source }) {
-  const [city, setCity] = useState("All");
+  const [city, setCity] = useState(null); // null until a city is chosen (step 1)
   const [category, setCategory] = useState("all");
   const [open, setOpen] = useState(null);
   const close = useCallback(() => setOpen(null), []);
 
   const catName = useMemo(() => Object.fromEntries(categories.map((c) => [c.id, c.name])), [categories]);
   const visible = shops.filter(
-    (s) => (city === "All" || s.city === city) && (category === "all" || s.category === category)
+    (s) => (!city || city === "All" || s.city === city) && (category === "all" || s.category === category)
   );
+
+  const chooseCity = (c) => {
+    setCity(c);
+    setCategory("all"); // each city has its own set of types
+  };
+  const reset = () => {
+    setCity(null);
+    setCategory("all");
+  };
 
   return (
     <section className="section" id="shops" data-chapter="Shops">
@@ -123,34 +125,29 @@ export default function Shops({ shops, cities, categories, source }) {
         </Reveal>
         <SplitText text={"Fourteen shops.\nEvery one worth the trip."} />
         <Reveal as="p" className="section-sub">
-          Markets, makers and pop-culture temples. Filter by city or by what you love, and tap a card for
-          the full story.
+          Markets, makers and pop-culture temples. Pick a city, then what you love, and tap a card for the
+          full story.
         </Reveal>
       </header>
 
-      <div className="filters">
-        <div className="chip-row" aria-label="Filter by city">
-          {["All", ...cities].map((c) => (
-            <Chip key={c} active={city === c} onClick={() => setCity(c)}>
-              {c}
-            </Chip>
-          ))}
-        </div>
-        <div className="chip-row" aria-label="Filter by type">
-          <Chip active={category === "all"} onClick={() => setCategory("all")}>
-            Everything
-          </Chip>
-          {categories.map((c) => (
-            <Chip key={c.id} active={category === c.id} onClick={() => setCategory(c.id)}>
-              {c.name}
-            </Chip>
-          ))}
-        </div>
+      <Reveal className="filters">
+        <ShopFilter
+          shops={shops}
+          cities={cities}
+          categories={categories}
+          city={city}
+          category={category}
+          onCity={chooseCity}
+          onCategory={setCategory}
+          onReset={reset}
+        />
         <p className={`data-source source-${source}`}>
-          {visible.length} of {shops.length} shops ·{" "}
+          Showing {visible.length} of {shops.length} shops
+          {city && city !== "All" ? ` in ${city}` : ""}
+          {category !== "all" ? ` · ${catName[category]}` : ""} ·{" "}
           {source === "api" ? "data served by our Node.js API" : source === "fallback" ? "offline copy" : "loading…"}
         </p>
-      </div>
+      </Reveal>
 
       {/* key: re-run the staggered entrance whenever the filters change */}
       <Reveal className="shop-grid" key={`${city}-${category}`}>
