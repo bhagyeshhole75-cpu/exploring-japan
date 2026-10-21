@@ -1,0 +1,24 @@
+{
+  "name": "exploring-japan",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Exploring Japan: famous and special shops, with a three.js torii hero, React UI and a Node.js API.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@react-three/drei": "^10.7.9",
+    "@react-three/fiber": "^9.8.2",
+    "@react-three/postprocessing": "^3.2.2",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "three": "^0.186.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.1.2",
+    "vite": "^8.3.5"
+  }
+}

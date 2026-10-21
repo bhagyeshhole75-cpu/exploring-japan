@@ -1,0 +1,266 @@
+// Shop data served by /api/shops. Facts were checked against Wikipedia
+// (see "sources" on each shop). Files starting with "_" are not API routes.
+
+export const CITIES = ["Tokyo", "Kyoto", "Osaka", "Hokkaido"];
+
+export const CATEGORIES = [
+  { id: "food", name: "Food & markets" },
+  { id: "craft", name: "Craft & tradition" },
+  { id: "pop", name: "Anime & games" },
+  { id: "style", name: "Style & everything" },
+];
+
+export const SHOPS = [
+  {
+    id: "nakamise",
+    name: "Nakamise-dōri",
+    jp: "仲見世通り",
+    city: "Tokyo",
+    area: "Asakusa",
+    category: "craft",
+    tagline: "The shopping street that leads to Tokyo's oldest temple.",
+    about:
+      "Nakamise-dōri is the approach to Sensō-ji in Asakusa. Shops have lined it for centuries, selling snacks and souvenirs to pilgrims and visitors. Today the street is about 250 metres long with around 72 shops.",
+    special: [
+      "Lucky charms like maneki-neko, the beckoning cat",
+      "Traditional snacks baked fresh in front of you",
+      "Fans, yukata, paper goods and festival toys",
+    ],
+    tip: "Walk it once more after the shops close. Many of the shutters are painted with scenes of old Asakusa.",
+    sources: ["https://en.wikipedia.org/wiki/Sens%C5%8D-ji"],
+  },
+  {
+    id: "tsukiji",
+    name: "Tsukiji Outer Market",
+    jp: "築地場外市場",
+    city: "Tokyo",
+    area: "Tsukiji",
+    category: "food",
+    tagline: "The famous fish market lives on as Tokyo's tastiest street food maze.",
+    about:
+      "Tsukiji was once the largest wholesale fish market in the world. In October 2018 the wholesale market moved to Toyosu, but the outer market stayed: rows of retail stalls, small restaurants and shops that supply Tokyo's kitchens.",
+    special: [
+      "Fresh sushi and seafood bowls for breakfast",
+      "Sweet rolled omelette (tamagoyaki) on a stick",
+      "Professional knives, dried fish, tea and kitchen tools",
+    ],
+    tip: "Go in the morning. It's a market for early risers, and many stalls wind down by early afternoon.",
+    sources: ["https://en.wikipedia.org/wiki/Tsukiji_fish_market"],
+  },
+  {
+    id: "itoya",
+    name: "Itoya Ginza",
+    jp: "伊東屋 銀座",
+    city: "Tokyo",
+    area: "Ginza",
+    category: "craft",
+    tagline: "A stationery brand founded in Ginza in 1904, still there today.",
+    about:
+      "Itoya has sold stationery in Ginza since 1904. Its flagship is a whole building of paper, pens and notebooks, marked by a giant red paperclip, and every floor has its own theme.",
+    special: [
+      "A wall of paper in every colour you can imagine",
+      "Fountain pens, inks and Japanese notebooks",
+      "Letter sets, cards and wrapping that make perfect light souvenirs",
+    ],
+    tip: "Pick a few sheets from the paper wall. They're cheap, flat, and easy to carry home.",
+    sources: ["https://en.wikipedia.org/wiki/Itoya"],
+  },
+  {
+    id: "donki",
+    name: "Don Quijote",
+    jp: "ドン・キホーテ",
+    city: "Tokyo",
+    area: "Shibuya (and everywhere)",
+    category: "style",
+    tagline: "The discount store where everything is stacked floor to ceiling.",
+    about:
+      "Don Quijote, or 'Donki', is a Japanese discount chain that sells everything from groceries to electronics and clothing. Products are packed from floor to ceiling, and many stores stay open until early morning or even 24 hours.",
+    special: [
+      "Japanese snacks and Kit Kat flavours in bulk",
+      "Cosmetics, skincare and quirky gadgets",
+      "Open late, so it's perfect after dinner",
+    ],
+    tip: "Bring your passport. Many branches offer tax-free shopping for visitors.",
+    sources: ["https://en.wikipedia.org/wiki/Don_Quijote_(store)"],
+  },
+  {
+    id: "nakano",
+    name: "Nakano Broadway",
+    jp: "中野ブロードウェイ",
+    city: "Tokyo",
+    area: "Nakano",
+    category: "pop",
+    tagline: "A 1960s luxury mall turned treasure chest for collectors.",
+    about:
+      "Nakano Broadway opened in 1966 as a luxury shopping complex. Today it's one of Tokyo's best places for otaku goods, and it houses the first store of Mandarake, a chain started in 1980 as a used-manga bookshop by a manga artist.",
+    special: [
+      "Rare manga, figures, vintage toys and trading cards",
+      "Dozens of tiny specialist shops in one building",
+      "Far calmer than Akihabara",
+    ],
+    tip: "Head upstairs. Most of the collectible shops are on the upper floors.",
+    sources: ["https://en.wikipedia.org/wiki/Nakano_Broadway", "https://en.wikipedia.org/wiki/Mandarake"],
+  },
+  {
+    id: "superpotato",
+    name: "Super Potato",
+    jp: "スーパーポテト",
+    city: "Tokyo",
+    area: "Akihabara",
+    category: "pop",
+    tagline: "Retro gaming heaven in the heart of Akihabara.",
+    about:
+      "Super Potato is a Japanese video game shop famous for its huge collection of retro games. Its Akihabara store is packed with classic consoles, cartridges and accessories.",
+    special: [
+      "Famicom and Super Famicom cartridges by the wall-full",
+      "Classic handhelds, consoles and controllers",
+      "Game music, figures and nostalgic merch",
+    ],
+    tip: "Check the condition labels. Boxed games with manuals cost more than loose cartridges.",
+    sources: ["https://en.wikipedia.org/wiki/Super_Potato"],
+  },
+  {
+    id: "kappabashi",
+    name: "Kappabashi Kitchen Town",
+    jp: "かっぱ橋道具街",
+    city: "Tokyo",
+    area: "Between Ueno and Asakusa",
+    category: "craft",
+    tagline: "The street that supplies Tokyo's restaurants, and its plastic food.",
+    about:
+      "Kappabashi-dōri is almost entirely lined with shops for the restaurant trade: knives, pots, crockery and restaurant furniture. It's also where restaurants buy the realistic plastic food you see in their windows. Look for the giant chef's head on the corner building.",
+    special: [
+      "Plastic display food (sampuru) as fun souvenirs",
+      "Hand-forged Japanese kitchen knives",
+      "Ceramic bowls, chopsticks and bento boxes",
+    ],
+    tip: "Go on a weekday. It's a trade street, so some shops close on Sundays.",
+    sources: ["https://en.wikipedia.org/wiki/Kappabashi-dori"],
+  },
+  {
+    id: "mitsukoshi",
+    name: "Mitsukoshi Nihonbashi",
+    jp: "三越 日本橋本店",
+    city: "Tokyo",
+    area: "Nihonbashi",
+    category: "style",
+    tagline: "A store with roots in 1673, and the start of the Mitsui group.",
+    about:
+      "Mitsukoshi began in 1673 as Echigoya, a kimono shop. In 1683 it tried something new: instead of going door to door, it let customers buy on the spot with cash. Its grand Nihonbashi main store was originally built in 1914.",
+    special: [
+      "Grand early-20th-century architecture",
+      "The basement food hall (depachika) full of beautiful sweets",
+      "Classic Japanese gifts, wrapped perfectly",
+    ],
+    tip: "Visit the depachika for boxed sweets. They make great omiyage (souvenir gifts) for friends back home.",
+    sources: ["https://en.wikipedia.org/wiki/Mitsukoshi"],
+  },
+  {
+    id: "ameyoko",
+    name: "Ameyoko",
+    jp: "アメ横",
+    city: "Tokyo",
+    area: "Ueno",
+    category: "food",
+    tagline: "A lively open-air market running alongside the train tracks.",
+    about:
+      "Ameya-Yokochō, or Ameyoko, is an open-air market next to Ueno Station with more than 250 shops. Its name may come from the candy shops (ameya) of the post-war years, or from the American goods once sold there.",
+    special: [
+      "Street food, fresh fruit sticks and seafood",
+      "Cheap snacks, sweets and spices",
+      "Clothing, sneakers and bargains under the railway",
+    ],
+    tip: "It's at its busiest in late December, when Tokyo stocks up for New Year.",
+    sources: ["https://en.wikipedia.org/wiki/Ameya-Yokoch%C5%8D"],
+  },
+  {
+    id: "takeshita",
+    name: "Takeshita Street",
+    jp: "竹下通り",
+    city: "Tokyo",
+    area: "Harajuku",
+    category: "style",
+    tagline: "Harajuku's narrow street of crêpes, colour and street style.",
+    about:
+      "Takeshita Street in Harajuku is the centre of Tokyo's youth and kawaii culture: a narrow pedestrian street packed with fashion boutiques, accessory shops and sweet stands. The crêpe shops here are famous.",
+    special: [
+      "Harajuku crêpes stuffed with cream and fruit",
+      "Street fashion, accessories and costume shops",
+      "Candy, rainbow treats and quirky souvenirs",
+    ],
+    tip: "Weekends are shoulder-to-shoulder. A weekday morning is much calmer.",
+    sources: ["https://en.wikipedia.org/wiki/Harajuku"],
+  },
+  {
+    id: "nishiki",
+    name: "Nishiki Market",
+    jp: "錦市場",
+    city: "Kyoto",
+    area: "Downtown Kyoto",
+    category: "food",
+    tagline: "'Kyoto's kitchen': 400 metres of food history under one arcade.",
+    about:
+      "Fish has been sold here since around 782, thanks to cold groundwater close to the Imperial Palace. Today Nishiki is a narrow, cobblestoned arcade about 400 metres long with around 130 shops, and it's known as 'Kyoto's kitchen'.",
+    special: [
+      "Kyoto pickles (tsukemono) in dozens of varieties",
+      "Fresh tofu, sweets and grilled seafood skewers",
+      "Home to Aritsugu, one of Japan's oldest knife makers",
+    ],
+    tip: "Eat at the stall where you buy. The market asks visitors not to eat while walking.",
+    sources: ["https://en.wikipedia.org/wiki/Nishiki_Market"],
+  },
+  {
+    id: "aritsugu",
+    name: "Aritsugu",
+    jp: "有次",
+    city: "Kyoto",
+    area: "Nishiki Market",
+    category: "craft",
+    tagline: "A blade maker founded in 1560, one of the oldest companies in the world.",
+    about:
+      "Aritsugu was founded by Fujiwara Aritsugu in 1560. It made swords and supplied the Imperial House. In the peaceful Edo period it switched to blades for carving Buddhist statues, and later to kitchen knives, which it still sells in Nishiki Market.",
+    special: [
+      "Hand-made kitchen knives with centuries of history",
+      "Copper pots, graters and traditional cooking tools",
+      "Run by the same family line for generations",
+    ],
+    tip: "Ask if they can engrave your name on the blade. It makes a great personal souvenir.",
+    sources: ["https://en.wikipedia.org/wiki/Aritsugu"],
+  },
+  {
+    id: "denden",
+    name: "Den Den Town",
+    jp: "でんでんタウン",
+    city: "Osaka",
+    area: "Nipponbashi",
+    category: "pop",
+    tagline: "Osaka's answer to Akihabara.",
+    about:
+      "Den Den Town is the nickname of the Nipponbashi shopping district in Osaka, along Sakaisuji Avenue. It's known for shops selling electronics, anime, manga and collectibles, and it's often compared with Akihabara in Tokyo.",
+    special: [
+      "Anime figures, manga and trading card shops",
+      "Electronics, PC parts and gadgets",
+      "Retro game shops and maid cafés",
+    ],
+    tip: "It's a short walk from Namba, so pair it with an evening in Dōtonbori.",
+    sources: ["https://en.wikipedia.org/wiki/Nipponbashi"],
+  },
+  {
+    id: "otaru",
+    name: "Otaru Music Box Museum",
+    jp: "小樽オルゴール堂",
+    city: "Hokkaido",
+    area: "Otaru",
+    category: "craft",
+    tagline: "A Meiji-era building filled with around 25,000 music boxes.",
+    about:
+      "The Otaru Music Box Museum opened in 1967 in a historic Meiji-era building. It holds around 25,000 music boxes, from tiny gifts to antiques, and the whole place chimes softly as visitors wind them up.",
+    special: [
+      "Music boxes of every size, playing popular melodies",
+      "Antique music boxes on display",
+      "Glasswork and gifts from Otaru's craft streets",
+    ],
+    tip: "Look for the steam clock outside. It whistles on the quarter-hour.",
+    sources: ["https://en.wikipedia.org/wiki/Otaru_Music_Box_Museum"],
+  },
+];
