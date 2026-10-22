@@ -87,7 +87,7 @@ code {
   color: var(--text);
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 10px 30px -10px rgba(0, 0, 0, 0.7);
 }
-.brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 0.98rem; }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 0.98rem; white-space: nowrap; min-width: 0; }
 .brand em { font-style: normal; font-family: var(--jp); color: var(--vermilion); margin-left: 4px; }
 .brand-mark {
   width: 34px;
@@ -526,8 +526,8 @@ code {
   opacity: 0;
   transform: translateY(40px) scale(0.98);
   transition:
-    opacity 0.8s ease calc(var(--i, 0) * 70ms),
-    transform 1.1s var(--ease-out) calc(var(--i, 0) * 70ms),
+    opacity 0.8s ease calc(min(var(--i, 0), 6) * 70ms),
+    transform 1.1s var(--ease-out) calc(min(var(--i, 0), 6) * 70ms),
     border-color 0.3s, box-shadow 0.35s;
 }
 .reveal.is-in .stagger { opacity: 1; transform: none; }
@@ -607,19 +607,23 @@ code {
 
 /* Landmarks: tall section with a pinned 3D view */
 .landmarks { position: relative; height: 1100vh; margin-top: clamp(40px, 8vw, 100px); }
-/* Sky-coloured backdrop: if a frame is ever late, you see night sky, not black */
+/* Sky-coloured backdrop: if a frame is ever late, you see night sky, not black.
+   Height uses the LARGE viewport (lvh): on iPhone Safari the address bar shrinks
+   while scrolling, and a smaller height left a black strip at the bottom. */
 .landmarks-sticky {
   position: sticky;
   top: 0;
   height: 100vh;
-  height: 100svh;
+  height: 100lvh;
   overflow: hidden;
   background: linear-gradient(180deg, #050816 0%, #140f2a 55%, #2a1630 100%);
 }
 .landmarks-canvas { position: absolute !important; inset: 0; }
 .landmarks-ui {
   position: absolute;
-  inset: 0;
+  inset: 0 0 auto 0;
+  height: 100vh;
+  height: 100svh; /* captions fit the SMALL viewport, so the address bar never hides them */
   pointer-events: none;
   padding: clamp(90px, 14vh, 130px) var(--gutter) 92px; /* bottom room for the chapter pill */
   display: grid;
@@ -858,4 +862,10 @@ code {
   .city-row { gap: 6px; padding: 6px; }
   .city-option { padding: 10px 14px; }
   .city-name { font-size: 0.98rem; }
+}
+
+/* Very narrow phones: keep the nav title on one line */
+@media (max-width: 400px) {
+  .brand { font-size: 0.9rem; gap: 8px; }
+  .brand-mark { width: 30px; height: 30px; }
 }

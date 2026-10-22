@@ -2,7 +2,10 @@ import { useEffect, useRef, useState } from "react";
 
 // Adds "is-in" once the element scrolls into view, which triggers the CSS
 // reveal animations (text rising in, cards sliding up).
-export default function useReveal({ threshold = 0.2, rootMargin = "0px 0px -8% 0px" } = {}) {
+// threshold 0 = trigger as soon as any part is on screen. (A percentage
+// threshold breaks for very tall elements: a 4,000 px card list on a phone can
+// never be 20% visible, so it would never appear.)
+export default function useReveal({ threshold = 0, rootMargin = "0px 0px -10% 0px" } = {}) {
   const ref = useRef(null);
   const [inView, setInView] = useState(false);
 
